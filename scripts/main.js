@@ -75,7 +75,7 @@ d3.json("data/flow.json", function(energy) {
         .attr("x", function (d) { return d.dy / 2 })
         .attr("y", sankey.nodeWidth() / 2)
         .attr("dy", ".25em")
-        .attr("transform", function (d) { return "translate(" + ((d.dy/2)-d.dy+(d.dy*.1)) +   ",0)rotate(-20)" })
+        // .attr("transform", function (d) { return "translate(" + ((d.dy/2)-d.dy+(d.dy*.1)) +   ",0)rotate(-20)" })
     
 
         .text(function(d) { return d.name; })
