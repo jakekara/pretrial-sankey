@@ -1,0 +1,81 @@
+{"nodes":[
+{"name":"Police encounter"},
+{"name":"Summons"},
+{"name":"Custodial arrest"},
+{"name":"Released on Bond"},
+{"name":"Held on bond"},
+{"name":"Promise to appear"},
+{"name":"CCSD Bail review"},
+{"name":"Held on bond"},
+{"name":"Released on bond"},
+{"name":"Promise to appear"},
+{"name":"Arraignment"},
+{"name":"Dismissed/Nolle"},
+{"name":"Disposed"},
+{"name":"Continued"},
+{"name":"Held on bond"},
+{"name":"Promise to appear"},
+{"name":"Jail reinterview"},
+{"name":"Jail/Prison"},
+{"name":"Conditional release"},
+{"name":"Released on bond"},
+{"name":"Released"},
+{"name":"Continued"},
+{"name":"Diversion"},
+{"name":"Bond release"},
+{"name":"Disposition/sentencing"}
+],
+"links":[
+
+{"source":0,"target":1,"value":67964},
+{"source":0,"target":2,"value":77669},
+{"source":2,"target":3,"value":18964},
+{"source":2,"target":4,"value":32762},
+{"source":2,"target":5,"value":25943},
+{"source":4,"target":6,"value":15762},
+{"source":4,"target":10,"value":17000},
+{"source":6,"target":7,"value":9246},
+{"source":6,"target":8,"value":1269},
+{"source":6,"target":9,"value":5081},
+{"source":1,"target":10,"value":67964},
+{"source":3,"target":10,"value":18964},
+{"source":5,"target":10,"value":25943},
+{"source":7,"target":10,"value":9246},
+{"source":8,"target":10,"value":1269},
+{"source":9,"target":10,"value":5081},
+{"source":10,"target":11,"value":10475},
+{"source":10,"target":13,"value":130372},
+{"source":10,"target":12,"value":4205},
+{"source":11,"target":24,"value":10475},
+{"source":12,"target":17,"value":268},
+{"source":12,"target":24,"value":3937},
+{"source":17,"target":24,"value":268},
+
+
+{"source":13,"target":18,"value":7161},
+{"source":13,"target":19,"value":25500},
+{"source":13,"target":14,"value":15255},
+{"source":13,"target":15,"value":79839},
+
+
+{"source":18,"target":24,"value":7161},
+{"source":19,"target":24,"value":25500},
+{"source":15,"target":24,"value":79839},
+
+{"source":14,"target":24,"value":5059},
+{"source":14,"target":16,"value":10196},
+{"source":16,"target":20,"value":6583},
+{"source":16,"target":21,"value":3593},
+{"source":21,"target":24,"value":3593},
+{"source":20,"target":22,"value":1732},
+{"source":20,"target":23,"value":4851},
+{"source":22,"target":24,"value":1732},
+{"source":23,"target":24,"value":4851}
+
+
+
+
+
+
+
+]}
