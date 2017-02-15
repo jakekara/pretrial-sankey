@@ -65,23 +65,18 @@ d3.json("data/flow.json", function(energy) {
         .text(function(d) { return d.name + "\n" + format(d.value); });
     
     
-    node.append("text")
-    //.attr("text-anchor", "start")
-
-    //.attr("translate", "rotate(-20)")
-    //.attr("transform", "translate(" + function (d) { return d.dy / 2 } + "," + sankey.nodeWidth() / 2 + ")rotate(-20)")
-    
-    //.attr("transform", "rotate(-45)")
+    var txt = node.append("text")
         .attr("x", function (d) { return d.dy / 2 })
         .attr("y", sankey.nodeWidth() / 2)
         .attr("dy", ".25em")
-        // .attr("transform", function (d) { return "translate(" + ((d.dy/2)-d.dy+(d.dy*.1)) +   ",0)rotate(-20)" })
-    
-
         .text(function(d) { return d.name; })
-    //.text(function(d) { if(d.name.length > 8) { return d.name.substring(0, 5) + "..."; } else return d.name; })
+    // .text(function(d) { if(d.name.length > 8) { return d.name.substring(0, 5) + "..."; } else return d.name; })
         .filter(function(d) { return d.x < width / 2; });
     
+
+    txt.each(function(d){
+	d3.select(this).attr("transform","rotate(-45)");
+    });
     
     function dragmove(d) {
         //d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) + ")");
