@@ -1,5 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:900');
+
+
 body {
     background-color: white;
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    font-weight:900;
 }
 
 #chart {
@@ -14,7 +20,7 @@ body {
 
 .node text {
   pointer-events: none;
-  text-shadow: 0 1px 0 #fff;
+  text-shadow: 0 1px 1px #fff;
 }
 
 .link {

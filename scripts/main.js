@@ -1,30 +1,45 @@
+var viewportWidth = document.documentElement.clientWidth;
 
-var chart = d3.select('#chart')
-var w = chart.node().offsetWidth
+var margin = {top: 1, right: 50, bottom: 6, left: 50};
+var throttle = null;
+var throttling = false;
+var go = function(energy) {
+
+    viewportWidth = document.documentElement.clientWidth;
+    // Add responsiveness
+    d3.select(window).on("resize", function(){
+	if (viewportWidth != document.documentElement.clientWidth){
+	    clearTimeout(throttle);
+	    throttle = setTimeout(function(){
+		go(energy);
+	    }, 100);
+	}
+    });
+    
+    var chart = d3.select('#chart').html("");
+
+    var w = chart.node().offsetWidth;
 
 
-var margin = {top: 1, right: 50, bottom: 6, left: 50},
-    width = w - margin.left - margin.right, // was 960
-    height = 1500 - margin.top - margin.bottom; // was 500
+    var	width = w - margin.left - margin.right, // was 960
+	height = 1500 - margin.top - margin.bottom; // was 500
 
-var formatNumber = d3.format(",.0f"),
-    format = function(d) { return formatNumber(d) + ""; },
-    color = d3.scale.category20();
+    var formatNumber = d3.format(",.0f"),
+	format = function(d) { return formatNumber(d) + ""; },
+	color = d3.scale.category20();
 
-var svg = d3.select("#chart").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var svg = d3.select("#chart").append("svg")
+	.attr("width", width + margin.left + margin.right)
+	.attr("height", height + margin.top + margin.bottom)
+	.append("g")
+	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var sankey = d3.sankey()
-    .nodeWidth(25) // was 15
-    .nodePadding(20) // was 10
-    .size([width, height]);
+    var sankey = d3.sankey()
+	.nodeWidth(25) // was 15
+	.nodePadding(20) // was 10
+	.size([width, height]);
 
-var path = sankey.link();
-
-d3.json("data/flow.json", function(energy) {
+    var path = sankey.link();
 
     sankey
         .nodes(energy.nodes)
@@ -40,8 +55,8 @@ d3.json("data/flow.json", function(energy) {
         .style("stroke", function(d) { return d.source.color = color(d.source.name.replace(/ .*/, "")); })
         .sort(function(a, b) { return b.dy - a.dy; });
 
-    link.append("title")
-        .text(function(d) { return d.source.name + " → " + d.target.name + "\n" + format(d.value); });
+    // link.append("title")
+    //     .text(function(d) { return d.source.name + " → " + d.target.name + "\n" + format(d.value); });
     // title is an SVG standard way of providing tooltips, up to the browser how to render this, so changing the style is tricky
     
     var node = svg.append("g").selectAll(".node")
@@ -61,8 +76,8 @@ d3.json("data/flow.json", function(energy) {
         .attr("width", function(d) { return d.dy; })
         .style("fill", function(d) { return d.color = color(d.name.replace(/ .*/, "")); })
         .style("stroke", function(d) { return d3.rgb(d.color).darker(2); })
-        .append("title")
-        .text(function(d) { return d.name + "\n" + format(d.value); });
+    // .append("title")
+    // .text(function(d) { return d.name + "\n" + format(d.value); });
     
     
     var txt = node.append("text")
@@ -71,11 +86,11 @@ d3.json("data/flow.json", function(energy) {
         .attr("dy", ".25em")
         .text(function(d) { return d.name; })
     // .text(function(d) { if(d.name.length > 8) { return d.name.substring(0, 5) + "..."; } else return d.name; })
-        .filter(function(d) { return d.x < width / 2; });
+    // .filter(function(d) { return d.x < width / 2; });
     
 
     txt.each(function(d){
-	d3.select(this).attr("transform","rotate(-45)");
+	d3.select(this).attr("transform","rotate(-45,"+ d3.select(this).attr("x") + "," + d3.select(this).attr("y")+")");
     });
     
     function dragmove(d) {
@@ -84,4 +99,36 @@ d3.json("data/flow.json", function(energy) {
         sankey.relayout();
         link.attr("d", path);
     }
-});
+
+    // make sure the labels are fitting; if not, increase margins and redraw
+    (function(){
+
+	var bbox = svg.node().getBoundingClientRect()
+	if (bbox.width + bbox.left > window.innerWidth){
+	    margin.right += (bbox.width + bbox.left - window.innerWidth + 12);
+	    go(energy);
+	}
+
+	var topmost = null;
+	var mintop = null;
+
+	d3.selectAll("text")
+	    .each(function(){
+		var bbox = d3.select(this).node().getBoundingClientRect();
+		if (topmost == null || bbox.top < mintop){
+		    topmost = this;
+		    mintop = bbox.top;
+		}
+	    });
+
+	if (mintop < 0){
+	    margin.top = (Math.abs(mintop) + 12)
+	    go(energy);
+	}
+    })();
+
+}
+
+d3.json("data/flow.json", go);
+
+
